@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>simple app storage example</title>
+	</head>
+	<body>
+		<script src="appStorage.js"></script>
+		<script>
+			window.addEventListener("DOMContentLoaded", function() {
+				alert("ready");
+				// store an object
+				var _obj = {
+		    		"first" : "one",
+		    		"second": "two",
+		    		"third" : "three",
+		    		"many"  : {
+		    			"0" : "a",
+		    			"1" : "b",
+		    			"2" : "c",
+		    			"3" : "d"
+		    		}
+		    	};
+		    	// store the list 
+		    	appStorage.exec({which: "ls", func: "set", args: [{"lastSaved": Date.now(), "list" : _obj}] });
+		    	// get the serailized list
+		    	// this is just for the sake of the example where some of the methods can be accessed directly
+		    	// but one should route all request trough the exec function
+				var _listObject = appStorage.ls.getItem("list")+" timestamp: "+appStorage.ls.getItem("lastSaved");
+				// let's output the newly stored element in the console
+				var _thisList = appStorage.exec({which: "ls", func: "get", args: ["list"]});
+				if(!!_thisList) {
+					// let's alert the serialized object
+					alert(_listObject);
+					// and let's get the unserialized stored list
+					console.log(_thisList);
+				}	
+			}, false);
+		</script>
+	</body>
+</html>
